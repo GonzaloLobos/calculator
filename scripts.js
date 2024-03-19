@@ -1,3 +1,7 @@
+const digitBtns = document.querySelectorAll(".digit");
+const operationBtns = document.querySelectorAll(".operator");
+const display = document.querySelector(".display");
+
 const operations = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
@@ -9,12 +13,19 @@ let a = "";
 let b = "";
 let op;
 
-const digitBtns = document.querySelectorAll(".digit");
-const operationBtns = document.querySelectorAll(".operator");
+function updateDiplay(text) {
+  display.textContent = text;
+}
 
 digitBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
-    !op ? (a += btn.value) : (b += btn.value);
+    if (!op) {
+      a += btn.value;
+      updateDiplay(a);
+    } else {
+      b += btn.value;
+      updateDiplay(b);
+    }
   })
 );
 
