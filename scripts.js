@@ -14,7 +14,7 @@ const operations = {
 
 let a = [];
 let b = [];
-let op;
+let op = [];
 
 function updateDiplay(text) {
   display.textContent = text;
@@ -23,12 +23,19 @@ function updateDiplay(text) {
 function operate(op, a, b) {
   const numberA = parseInt(a.join(""));
   const numberB = parseInt(b.join(""));
-  return operations[op](numberA, numberB);
+  const operator = op[0];
+  return operations[operator](numberA, numberB);
+}
+
+function resetValues() {
+  a = [];
+  b = [];
+  op = [];
 }
 
 digitBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
-    if (!op) {
+    if (!op[0]) {
       a.push(btn.value);
       updateDiplay(a.join(""));
     } else {
@@ -40,28 +47,37 @@ digitBtns.forEach((btn) =>
 
 operationBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
-    op = btn.value;
+    if (op[0]) {
+      const temp = operate(op, a, b);
+      a = [];
+      b = [];
+      a.push(temp);
+      op.unshift(btn.value);
+    } else {
+      op.unshift(btn.value);
+    }
   })
 );
 
 equals.addEventListener("click", function () {
-  let result = operate(op, a, b);
-  updateDiplay(result);
+  if (op[0] && a[0] && b[0]) {
+    let result = operate(op, a, b);
+    updateDiplay(result);
+    resetValues(op, a, b);
+  }
 });
 
 clear.addEventListener("click", function () {
-  a = [];
-  b = [];
-  op = "";
+  resetValues();
   updateDiplay("Calculator");
 });
 
 undo.addEventListener("click", function () {
-  if (!op) {
+  if (!op[0]) {
     a.pop();
-    updateDiplay(a.join(""));
+    a[0] ? updateDiplay(a.join("")) : updateDiplay("0");
   } else {
     b.pop();
-    updateDiplay(b.join(""));
+    b[0] ? updateDiplay(b.join("")) : updateDiplay("0");
   }
 });
