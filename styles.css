@@ -1,3 +1,59 @@
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.container {
+  background-color: #2b3035;
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 400px;
+  flex-shrink: 0;
+}
+
 .display {
-  background-color: #708888;
+  text-align: end;
+  font-size: 40px;
+  color: #fff;
+  background-color: #50565c;
+  padding: 15px 10px;
+  flex-basis: 100%;
+}
+
+.container button {
+  background-color: #222325;
+  color: #fff;
+  padding: 0;
+  border: 2px solid #2b3035;
+  flex-basis: 25%;
+  height: 100px;
+}
+
+.bottom-section {
+  display: flex;
+  width: 100%;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 75%;
+}
+
+.btn-group > button {
+  flex-basis: 33.333%;
+}
+
+button[value="0"] {
+  flex-grow: 1;
+}
+
+button.equals {
+  background-color: #3781cb;
+  height: 100%;
+}
+
+button.operator {
+  background-color: #41464b;
 }
