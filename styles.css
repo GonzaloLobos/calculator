@@ -8,7 +8,7 @@ body {
   background-color: #2b3035;
   display: flex;
   flex-wrap: wrap;
-  flex-basis: 400px;
+  flex-basis: 460px;
   flex-shrink: 0;
 }
 
@@ -17,7 +17,7 @@ body {
   font-size: 40px;
   color: #fff;
   background-color: #50565c;
-  padding: 15px 10px;
+  padding: 20px 10px;
   flex-basis: 100%;
 }
 
@@ -27,7 +27,7 @@ body {
   padding: 0;
   border: 2px solid #2b3035;
   flex-basis: 25%;
-  height: 100px;
+  height: 115px;
 }
 
 .bottom-section {

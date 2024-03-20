@@ -1,5 +1,5 @@
-const digitBtns = document.querySelectorAll(".digit");
 const operationBtns = document.querySelectorAll(".operator");
+const digitBtns = document.querySelectorAll(".digit");
 const display = document.querySelector(".display");
 const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
@@ -36,11 +36,17 @@ function resetValues() {
 digitBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
     if (!op[0]) {
-      a.push(btn.value);
-      updateDiplay(a.join(""));
+      while (a.length < 16) {
+        a.push(btn.value);
+        updateDiplay(a.join(""));
+        break;
+      }
     } else {
-      b.push(btn.value);
-      updateDiplay(b.join(""));
+      while (b.length < 16) {
+        b.push(btn.value);
+        updateDiplay(b.join(""));
+        break;
+      }
     }
   })
 );
@@ -52,10 +58,8 @@ operationBtns.forEach((btn) =>
       a = [];
       b = [];
       a.push(temp);
-      op.unshift(btn.value);
-    } else {
-      op.unshift(btn.value);
     }
+    op.unshift(btn.value);
   })
 );
 
