@@ -57,3 +57,7 @@ button.equals {
 button.operator {
   background-color: #41464b;
 }
+
+.decimal-point:disabled {
+  background-color: red;
+}

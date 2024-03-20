@@ -4,6 +4,7 @@ const display = document.querySelector(".display");
 const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
 const undo = document.querySelector(".undo");
+const decimalBtn = document.querySelector(".decimal-point");
 
 const operations = {
   "+": (a, b) => a + b,
@@ -21,13 +22,14 @@ function updateDiplay(text) {
 }
 
 function operate(op, a, b) {
-  const numberA = parseInt(a.join(""));
-  const numberB = parseInt(b.join(""));
+  const numberA = parseFloat(a.join(""));
+  const numberB = parseFloat(b.join(""));
   const operator = op;
   return operations[operator](numberA, numberB);
 }
 
 function resetValues() {
+  decimalBtn.removeAttribute("disabled");
   a = [];
   b = [];
   op = "";
@@ -67,6 +69,10 @@ operationBtns.forEach((btn) =>
     } else if (a[0]) {
       op = btn.value;
     }
+
+    if (op && a[0]) {
+      decimalBtn.removeAttribute("disabled");
+    }
   })
 );
 
@@ -91,8 +97,26 @@ undo.addEventListener("click", function () {
   if (!op) {
     a.pop();
     a[0] ? updateDiplay(a.join("")) : updateDiplay("0");
+    if (!a.includes(".")) {
+      decimalBtn.removeAttribute("disabled");
+    }
   } else {
     b.pop();
     b[0] ? updateDiplay(b.join("")) : updateDiplay("0");
+    if (!b.includes(".")) {
+      decimalBtn.removeAttribute("disabled");
+    }
+  }
+});
+
+decimalBtn.addEventListener("click", function () {
+  if (!op) {
+    a.push(".");
+    decimalBtn.setAttribute("disabled", "");
+    updateDiplay(a.join(""));
+  } else {
+    b.push(".");
+    decimalBtn.setAttribute("disabled", "");
+    updateDiplay(b.join(""));
   }
 });
