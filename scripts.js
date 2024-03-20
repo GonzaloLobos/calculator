@@ -29,7 +29,6 @@ function operate(op, a, b) {
 }
 
 function resetValues() {
-  decimalBtn.removeAttribute("disabled");
   a = [];
   b = [];
   op = "";
@@ -37,16 +36,14 @@ function resetValues() {
 
 function handleDigit(digit) {
   if (!op) {
-    while (a.length < 16) {
+    if (a.length < 16) {
       a.push(digit);
       updateDiplay(a.join(""));
-      break;
     }
   } else {
-    while (b.length < 16) {
+    if (b.length < 16) {
       b.push(digit);
       updateDiplay(b.join(""));
-      break;
     }
   }
 }
@@ -58,28 +55,19 @@ function handleOperator(operator) {
       updateDiplay("Math Error");
       resetValues();
     } else {
-      a = [];
-      b = [];
+      resetValues();
       a.push(result);
       op = operator;
     }
   } else if (a[0]) {
     op = operator;
   }
-
-  if (op && a[0]) {
-    decimalBtn.removeAttribute("disabled");
-  }
 }
 
 function handleEquals() {
   if (op && a[0] && b[0]) {
     const result = operate(op, a, b);
-    if (result == Infinity) {
-      updateDiplay("Math Error");
-    } else {
-      updateDiplay(result);
-    }
+    result == Infinity ? updateDiplay("Math Error") : updateDiplay(result);
     resetValues();
   }
 }
@@ -88,26 +76,20 @@ function handleUndo() {
   if (!op) {
     a.pop();
     a[0] ? updateDiplay(a.join("")) : updateDiplay("0");
-    if (!a.includes(".")) {
-      decimalBtn.removeAttribute("disabled");
-    }
   } else {
     b.pop();
     b[0] ? updateDiplay(b.join("")) : updateDiplay("0");
-    if (!b.includes(".")) {
-      decimalBtn.removeAttribute("disabled");
-    }
   }
 }
 
 function handleDecimal() {
-  if (!op) {
+  if (!op && !a.includes(".")) {
     a.push(".");
-    decimalBtn.setAttribute("disabled", "");
     updateDiplay(a.join(""));
-  } else {
+    //Only add decimal point to "b" if "op" is defined.
+    //Otherwise, doing so for "a" adds it to "b" too
+  } else if (op && !b.includes(".")) {
     b.push(".");
-    decimalBtn.setAttribute("disabled", "");
     updateDiplay(b.join(""));
   }
 }
@@ -153,6 +135,7 @@ window.addEventListener("keydown", (e) => {
       handleOperator(keyPressed);
       break;
     case "Enter":
+      e.preventDefault();
       handleEquals();
       break;
     case "Backspace":
