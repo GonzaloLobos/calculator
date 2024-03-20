@@ -14,7 +14,7 @@ const operations = {
 
 let a = [];
 let b = [];
-let op = [];
+let op = "";
 
 function updateDiplay(text) {
   display.textContent = text;
@@ -23,19 +23,19 @@ function updateDiplay(text) {
 function operate(op, a, b) {
   const numberA = parseInt(a.join(""));
   const numberB = parseInt(b.join(""));
-  const operator = op[0];
+  const operator = op;
   return operations[operator](numberA, numberB);
 }
 
 function resetValues() {
   a = [];
   b = [];
-  op = [];
+  op = "";
 }
 
 digitBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
-    if (!op[0]) {
+    if (!op) {
       while (a.length < 16) {
         a.push(btn.value);
         updateDiplay(a.join(""));
@@ -53,7 +53,7 @@ digitBtns.forEach((btn) =>
 
 operationBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
-    if (op[0]) {
+    if (op && a[0] && b[0]) {
       const result = operate(op, a, b);
       if (result == Infinity) {
         updateDiplay("Math Error");
@@ -62,16 +62,16 @@ operationBtns.forEach((btn) =>
         a = [];
         b = [];
         a.push(result);
-        op.unshift(btn.value);
+        op = btn.value;
       }
-    } else {
-      op.unshift(btn.value);
+    } else if (a[0]) {
+      op = btn.value;
     }
   })
 );
 
 equals.addEventListener("click", function () {
-  if (op[0] && a[0] && b[0]) {
+  if (op && a[0] && b[0]) {
     const result = operate(op, a, b);
     if (result == Infinity) {
       updateDiplay("Math Error");
@@ -88,7 +88,7 @@ clear.addEventListener("click", function () {
 });
 
 undo.addEventListener("click", function () {
-  if (!op[0]) {
+  if (!op) {
     a.pop();
     a[0] ? updateDiplay(a.join("")) : updateDiplay("0");
   } else {
