@@ -54,20 +54,31 @@ digitBtns.forEach((btn) =>
 operationBtns.forEach((btn) =>
   btn.addEventListener("click", function () {
     if (op[0]) {
-      const temp = operate(op, a, b);
-      a = [];
-      b = [];
-      a.push(temp);
+      const result = operate(op, a, b);
+      if (result == Infinity) {
+        updateDiplay("Math Error");
+        resetValues();
+      } else {
+        a = [];
+        b = [];
+        a.push(result);
+        op.unshift(btn.value);
+      }
+    } else {
+      op.unshift(btn.value);
     }
-    op.unshift(btn.value);
   })
 );
 
 equals.addEventListener("click", function () {
   if (op[0] && a[0] && b[0]) {
-    let result = operate(op, a, b);
-    updateDiplay(result);
-    resetValues(op, a, b);
+    const result = operate(op, a, b);
+    if (result == Infinity) {
+      updateDiplay("Math Error");
+    } else {
+      updateDiplay(result);
+    }
+    resetValues();
   }
 });
 
