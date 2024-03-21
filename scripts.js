@@ -5,6 +5,7 @@ const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
 const undo = document.querySelector(".undo");
 const decimalBtn = document.querySelector(".decimal-point");
+const displayOperator = document.querySelector(".display-operator");
 
 const operations = {
   "+": (a, b) => a + b,
@@ -17,8 +18,11 @@ let a = [];
 let b = [];
 let op = "";
 
-function updateDiplay(text) {
+function updateDiplay(text, isDefault) {
   display.textContent = text;
+  isDefault
+    ? display.setAttribute("value", "default")
+    : display.removeAttribute("value");
 }
 
 function operate(op, a, b) {
@@ -34,16 +38,26 @@ function resetValues() {
   op = "";
 }
 
+function updateOperator() {
+  if (op === "*") {
+    displayOperator.textContent = "\u00D7";
+  } else if (op === "/") {
+    displayOperator.textContent = "\u00F7";
+  } else {
+    displayOperator.textContent = op;
+  }
+}
+
 function handleDigit(digit) {
   if (!op) {
     if (a.length < 16) {
       a.push(digit);
-      updateDiplay(a.join(""));
+      updateDiplay(a.join(""), false);
     }
   } else {
     if (b.length < 16) {
       b.push(digit);
-      updateDiplay(b.join(""));
+      updateDiplay(b.join(""), false);
     }
   }
 }
@@ -52,45 +66,50 @@ function handleOperator(operator) {
   if (op && a[0] && b[0]) {
     const result = operate(op, a, b);
     if (result == Infinity) {
-      updateDiplay("Math Error");
+      updateDiplay("Math Error", false);
       resetValues();
     } else {
       resetValues();
       a.push(result);
       op = operator;
+      updateOperator();
     }
   } else if (a[0]) {
     op = operator;
+    updateOperator();
   }
 }
 
 function handleEquals() {
   if (op && a[0] && b[0]) {
     const result = operate(op, a, b);
-    result == Infinity ? updateDiplay("Math Error") : updateDiplay(result);
+    result == Infinity
+      ? updateDiplay("Math Error", false)
+      : updateDiplay(result, false);
     resetValues();
+    updateOperator();
   }
 }
 
 function handleUndo() {
   if (!op) {
     a.pop();
-    a[0] ? updateDiplay(a.join("")) : updateDiplay("0");
+    a[0] ? updateDiplay(a.join("")) : updateDiplay("Calculator", true);
   } else {
     b.pop();
-    b[0] ? updateDiplay(b.join("")) : updateDiplay("0");
+    b[0] ? updateDiplay(b.join("")) : updateDiplay("Calculator", true);
   }
 }
 
 function handleDecimal() {
   if (!op && !a.includes(".")) {
     a.push(".");
-    updateDiplay(a.join(""));
+    updateDiplay(a.join(""), false);
     //Only add decimal point to "b" if "op" is defined.
     //Otherwise, doing so for "a" adds it to "b" too
   } else if (op && !b.includes(".")) {
     b.push(".");
-    updateDiplay(b.join(""));
+    updateDiplay(b.join(""), false);
   }
 }
 
@@ -110,7 +129,8 @@ decimalBtn.addEventListener("click", handleDecimal);
 
 clear.addEventListener("click", () => {
   resetValues();
-  updateDiplay("Calculator");
+  updateDiplay("Calculator", true);
+  updateOperator();
 });
 
 window.addEventListener("keydown", (e) => {

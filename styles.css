@@ -1,33 +1,57 @@
 body {
+  background-color: #1a1a1a;
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
 .container {
-  background-color: #2b3035;
+  background-color: #1a1a1a;
+  box-shadow: 0px 0px 5px 10px #141414;
   display: flex;
   flex-wrap: wrap;
   flex-basis: 460px;
   flex-shrink: 0;
 }
 
+.display-container {
+  display: flex;
+  flex-basis: 100%;
+  padding: 20px 10px;
+  align-items: center;
+}
+
 .display {
+  background-color: #1a1a1a;
   text-align: end;
   font-size: 40px;
+  font-weight: 400;
   color: #fff;
-  background-color: #50565c;
-  padding: 20px 10px;
-  flex-basis: 100%;
+  padding: 0px;
+  margin: 0px;
+  margin-left: auto;
+}
+
+.display[value="default"] {
+  color: #797d81;
+}
+
+.display-operator {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  flex-basis: 17px;
 }
 
 .container button {
-  background-color: #222325;
+  background-color: #38393b;
+  font-size: 20px;
   color: #fff;
   padding: 0;
-  border: 2px solid #2b3035;
+  border: none;
   flex-basis: 25%;
   height: 115px;
+  transition: background-color 0.1s;
 }
 
 .bottom-section {
@@ -49,11 +73,28 @@ button[value="0"] {
   flex-grow: 1;
 }
 
+button:hover {
+  background-color: #545558;
+  cursor: pointer;
+}
+
 button.equals {
   background-color: #3781cb;
   height: 100%;
 }
 
+.equals:hover {
+  background-color: #5a9bdb;
+}
+
 button.operator {
-  background-color: #41464b;
+  background-color: #666a6f;
+}
+
+.operator:hover {
+  background-color: #797d81;
+}
+
+button:active {
+  background-color: #bebebe;
 }
